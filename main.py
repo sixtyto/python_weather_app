@@ -10,7 +10,9 @@ def main(city):
     rows = [
         ['City', 'Time', 'Temperature']
     ]
+    city_list = []
     for data in loads(response.text):
+        city_list.append(data['stacja'])
         if data['stacja'] == city:
             rows.append([
                 data['stacja'],
@@ -22,7 +24,7 @@ def main(city):
         table = AsciiTable(rows)
         print(table.table)
     else:
-        print("city not found")
+        print(f'city not found, please try: {", ".join(city_list)}.')
 
 
 if __name__ == '__main__':
