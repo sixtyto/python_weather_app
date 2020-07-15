@@ -1,16 +1,27 @@
 from requests import get
 from json import loads
+from terminaltables import AsciiTable
 
 
 def main(city):
     find = False
     url = 'https://danepubliczne.imgw.pl/api/data/synop'
     response = get(url)
+    rows = [
+        ['City', 'Time', 'Temperature']
+    ]
     for data in loads(response.text):
         if data['stacja'] == city:
-            print(data)
+            rows.append([
+                data['stacja'],
+                data['godzina_pomiaru'],
+                data['temperatura']
+            ])
             find = True
-    if not find:
+    if find:
+        table = AsciiTable(rows)
+        print(table.table)
+    else:
         print("city not found")
 
 
